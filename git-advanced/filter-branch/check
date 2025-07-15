@@ -1,5 +1,7 @@
 #!/opt/pwn.college/bash
 
+sudo -u hacker bash <<'EOF'
+
 cd /tmp/repo
 
 # 检查当前目录是否为 Git 仓库
@@ -25,6 +27,8 @@ if [ -z "$(git log -1)" ]; then
     echo "[-] 仓库提交历史为空！"
     exit 1
 fi
+
+EOF
 
 # 所有检查通过，显示 flag
 echo "[+] 敏感文件已从历史中移除！这是你的flag: "
