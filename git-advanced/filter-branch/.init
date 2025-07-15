@@ -4,8 +4,6 @@ if ! command -v git >/dev/null 2>&1; then
   apt update && apt install -y git
 fi
 
-pip install git-filter-repo
-
 sudo -u hacker bash <<'EOF'
 
 mkdir -p /tmp/repo
