@@ -86,9 +86,16 @@ for i in $(seq 1 80); do
     GIT_AUTHOR_NAME="${authors[$idx]}" GIT_AUTHOR_EMAIL="${emails[$idx]}" \
     GIT_COMMITTER_NAME="${authors[$idx]}" GIT_COMMITTER_EMAIL="${emails[$idx]}" \
     git commit -m "$msg" >/dev/null 2>&1
+    
 done
+
+# 查找
+TARGET_COMMIT=$(git log --all --grep="magicword" --pretty=format:%H | head -n 1)
+echo "$TARGET_COMMIT" > /tmp/tmp_expected_commit
 
 EOF
 
-TARGET_COMMIT=$(git log --all --grep="magicword" --pretty=format:%H | head -n 1)
-echo "$TARGET_COMMIT" > /expected_commit
+# root 用户收集
+mv /tmp/tmp_expected_commit /expected_commit
+chown root:root /expected_commit
+chmod 400 /expected_commit
