@@ -5,6 +5,6 @@ challenges:
     name: 初始化与提交文件
     level: 1
 
-  - id: "log-1.0"
-    name: 找到特定提交-1.0
+  - id: "log-1"
+    name: 找到特定提交-1
     level: 1
