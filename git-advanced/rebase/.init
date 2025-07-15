@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/opt/pwn.college/bash
 
 if ! command -v git >/dev/null 2>&1; then
   apt update && apt install -y git
 fi
 
-sudo -u hacker bash -c '
+sudo -u hacker bash <<'EOF'
 mkdir -p /tmp/repo
 cd /tmp/repo
 git init
@@ -22,4 +22,4 @@ git commit -m "add part2"
 echo "third part" > part3.txt
 git add part3.txt
 git commit -m "add part3"
-'
+EOF
