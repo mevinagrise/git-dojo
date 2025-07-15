@@ -4,3 +4,7 @@ challenges:
   - id: "rebase"
     name: 变基与整理
     level: 3
+
+  - id: "filter-branch"
+    name: 清理敏感文件
+    level: 3
