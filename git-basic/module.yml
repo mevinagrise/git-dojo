@@ -8,3 +8,7 @@ challenges:
   - id: "log-1"
     name: 找到特定提交-1
     level: 1
+
+  - id: "log"
+    name: 筛选日志
+    level: 3

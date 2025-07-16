@@ -1,0 +1,122 @@
+#!/opt/pwn.college/bash
+
+# 确保 git 已安装
+if ! command -v git >/dev/null 2>&1; then
+  apt update && apt install -y git
+fi
+
+sudo -u hacker bash <<'EOF'
+
+# 创建并进入仓库目录
+mkdir -p /tmp/repo
+cd /tmp/repo
+git init >/dev/null 2>&1
+
+# 定义作者和邮箱
+authors=("Alice" "Bob" "Charlie" "pwnuser")
+emails=("alice@example.com" "bob@example.com" "charlie@example.com" "pwn@hust.edu.cn")
+
+# 常用提交前缀
+prefixes=(
+  "update"
+  "refactor"
+  "add"
+  "remove"
+  "improve"
+  "clean"
+  "change"
+  "optimize"
+  "rework"
+)
+
+# 常用后缀
+suffixes=(
+  ""
+  "WIP"
+  "quick fix"
+  "final"
+  "test"
+  "minor"
+  "urgent"
+)
+
+# 初始提交（main 分支，2025年5月）
+echo "Initial content" > README.md
+GIT_AUTHOR_NAME="${authors[0]}" GIT_AUTHOR_EMAIL="${emails[0]}" \
+GIT_COMMITTER_NAME="${authors[0]}" GIT_COMMITTER_EMAIL="${emails[0]}" \
+git add README.md && git commit --date="2025-05-01T10:00:00" -m "Initial commit" >/dev/null 2>&1
+
+# 创建分支：dev, feature
+git branch dev
+git branch feature
+
+# 提交计数器
+commit_count=1
+
+# 在不同分支上提交
+for branch in main dev feature; do
+  git checkout $branch >/dev/null 2>&1
+
+  # 每个分支的提交数量
+  if [ "$branch" = "dev" ]; then
+    num_commits=80  # dev 分支分配 80 次提交
+  elif [ "$branch" = "main" ]; then
+    num_commits=40
+  elif [ "$branch" = "feature" ]; then
+    num_commits=20
+  fi
+
+  for i in $(seq 1 $num_commits); do
+    # 创建或修改文件
+    echo "Data $commit_count" >> "file${commit_count}"
+    git add "file${commit_count}"
+
+    # 随机作者
+    idx=$((RANDOM % ${#authors[@]}))
+
+    # 随机日期：2025年5月1日至8月31日
+    start_date=$(date -d "2025-05-01" +%s)
+    end_date=$(date -d "2025-08-31" +%s)
+    random_date=$((start_date + RANDOM % (end_date - start_date)))
+    commit_date=$(date -d "@$random_date" +"%Y-%m-%dT%H:%M:%S")
+
+    prefix=${prefixes[$((RANDOM % ${#prefixes[@]}))]}
+    suffix=${suffixes[$((RANDOM % ${#suffixes[@]}))]}
+    msg="$prefix file $commit_count"
+    [ -n "$suffix" ] && msg="$msg - $suffix"
+
+    GIT_AUTHOR_DATE="$commit_date" GIT_COMMITTER_DATE="$commit_date" \
+    GIT_AUTHOR_NAME="${authors[$idx]}" GIT_AUTHOR_EMAIL="${emails[$idx]}" \
+    GIT_COMMITTER_NAME="${authors[$idx]}" GIT_COMMITTER_EMAIL="${emails[$idx]}" \
+    git commit -m "$msg" >/dev/null 2>&1
+
+    commit_count=$((commit_count + 1))
+  done
+done
+
+# 插入几条正确答案：dev 分支上、2025-06-15 ~ 2025-07-20，包含 bugfix
+git checkout dev >/dev/null 2>&1
+
+special_dates=("2025-06-10T14:00:00" "2025-06-25T09:30:00" "2025-07-05T16:20:00" "2025-07-18T11:45:00")
+special_msgs=("login bugfix" "BUGFIX: memory leak" "small bugfix in api" "BugFix: typo in docs")
+
+for idx in ${!special_dates[@]}; do
+  echo "Special data $idx" >> "special_file$idx"
+  git add "special_file$idx"
+
+  GIT_AUTHOR_DATE="${special_dates[$idx]}" GIT_COMMITTER_DATE="${special_dates[$idx]}" \
+  GIT_AUTHOR_NAME="${authors[$((idx % ${#authors[@]}))]}" GIT_AUTHOR_EMAIL="${emails[$((idx % ${#authors[@]}))]}" \
+  GIT_COMMITTER_NAME="${authors[$((idx % ${#authors[@]}))]}" GIT_COMMITTER_EMAIL="${emails[$((idx % ${#authors[@]}))]}" \
+  git commit -m "${special_msgs[$idx]}" >/dev/null 2>&1
+done
+
+# 生成预期答案文件 /tmp/expected_answer
+git log dev --since="2025-06-01" --until="2025-07-31" --grep="bugfix" -i \
+--pretty=format:"%h|%an|%ad|%s" --date=format:"%Y-%m-%d" > /tmp/expected_answer
+
+EOF
+
+# root 用户收集
+mv /tmp/expected_answer /expected_answer
+chown root:root /expected_answer
+chmod 400 /expected_answer
