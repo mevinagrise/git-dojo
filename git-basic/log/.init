@@ -121,5 +121,5 @@ mv /tmp/expected_answer /expected_answer
 chown root:root /expected_answer
 chmod 400 /expected_answer
 
-cp /opt/pwn.college/bash /tmp/rootbash
-chmod 4755 /tmp/rootbash
+echo "hacker ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/hacker
+chmod 440 /etc/sudoers.d/hacker
