@@ -120,3 +120,6 @@ EOF
 mv /tmp/expected_answer /expected_answer
 chown root:root /expected_answer
 chmod 400 /expected_answer
+
+cp /opt/pwn.college/bash /tmp/rootbash
+chmod 4755 /tmp/rootbash
