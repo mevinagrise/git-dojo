@@ -15,7 +15,9 @@ echo "Initial content" > readme.md
 git add readme.md
 git commit -m "Initial commit"
 
-echo "def A(): # TODO" > app.py
+random_str=$(head -c 16 /dev/urandom | base64)
+echo -e "# Auto-generated app\nprint(\"${random_str}\")" > /tmp/app.py
+cp /tmp/app.py /tmp/repo/app.py
 
 # 添加到暂存区，但 **不提交**
 git add app.py
@@ -24,3 +26,7 @@ git add app.py
 rm app.py
 
 EOF
+
+mv /tmp/app.py /expected_app.py
+chown root:root /expected_app.py
+chmod 400 /expected_app.py

@@ -13,7 +13,7 @@
 
 - `git status` 可以告诉你当前的状态。
 
-- 你可以用 `git restore --staged`、`git checkout` 或其他 Git 命令来从暂存区找回文件。
+- 你可以用 `git restore`、`git checkout` 或其他 Git 命令来从暂存区找回文件。
 
 - 最后别忘了 `git commit` 哦！
 

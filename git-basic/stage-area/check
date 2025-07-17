@@ -14,15 +14,20 @@ if [ ! -d .git ]; then
     exit 1
 fi
 
-# 检查是否提交了包含 app.py 的提交
-if ! git log --pretty=format: --name-only | grep -q "^app.py$"; then
-    echo "[-] 你没有成功提交 app.py！"
+# 检查当前工作区是否包含 app.py
+if [ ! -f app.py ]; then
+    echo "[-] app.py 不在工作区中！需要从暂存区恢复后再提交。"
     exit 1
 fi
 
-# 检查当前工作区是否包含 app.py
-if [ ! -f app.py ]; then
-    echo "[-] app.py 不在工作区中！你需要从暂存区恢复后再提交。"
+if ! diff -q app.py /expected_app.py >/dev/null; then
+    echo "[-] app.py 文件内容不正确，不能随便伪造！必须从暂存区恢复原始版本。"
+    exit 1
+fi
+
+# 检查是否提交了包含 app.py 的提交
+if ! git log --pretty=format: --name-only | grep -q "^app.py$"; then
+    echo "[-] 没有成功提交 app.py！"
     exit 1
 fi
 
