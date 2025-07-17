@@ -2,7 +2,7 @@ name: Git 进阶操作
 
 challenges:
   - id: "rebase"
-    name: 变基与整理
+    name: 整理提交历史
     level: 3
 
   - id: "filter-branch"
