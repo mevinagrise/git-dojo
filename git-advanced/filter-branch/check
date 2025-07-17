@@ -1,10 +1,16 @@
 #!/opt/pwn.college/bash
 
+# 检查 /tmp/repo 是否存在且为目录
+if [ ! -d /tmp/repo ]; then
+    echo "[-] 不要删除 /tmp/repo 文件夹！"
+    exit 1
+fi
+
 cd /tmp/repo
 
 # 检查当前目录是否为 Git 仓库
 if [ ! -d .git ]; then
-    echo "[-] 不要删除 .git 文件夹"
+    echo "[-] 不要删除 .git 文件夹！"
     exit 1
 fi
 
