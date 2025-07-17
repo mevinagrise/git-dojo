@@ -15,7 +15,7 @@ echo "Initial content" > readme.md
 git add readme.md
 git commit -m "Initial commit"
 
-echo "def A(): # TODO > app.py
+echo "def A(): # TODO" > app.py
 
 # 添加到暂存区，但 **不提交**
 git add app.py
