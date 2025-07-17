@@ -5,6 +5,10 @@ challenges:
     name: 初始化与提交文件
     level: 1
 
+  - id: "stage-area"
+    name: 从暂存区恢复文件
+    level: 2
+
   - id: "log"
     name: 筛选提交日志
     level: 3

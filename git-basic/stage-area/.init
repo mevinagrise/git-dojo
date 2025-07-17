@@ -1,10 +1,13 @@
 #!/opt/pwn.college/bash
 
 sudo -u hacker bash <<'EOF'
+
+# 创建并初始化 Git 仓库
 mkdir -p /tmp/repo
 cd /tmp/repo
 git init
 
+# 设置用户名和邮箱
 git config user.name "pwnuser"
 git config user.email "pwn@hust.edu.cn"
 
@@ -12,15 +15,12 @@ echo "Initial content" > readme.md
 git add readme.md
 git commit -m "Initial commit"
 
-echo "first part" > part1.txt
-git add part1.txt
-git commit -m "add part1"
+echo "def A(): # TODO > app.py
 
-echo "second part" > part2.txt
-git add part2.txt
-git commit -m "add part2"
+# 添加到暂存区，但 **不提交**
+git add app.py
 
-echo "third part" > part3.txt
-git add part3.txt
-git commit -m "add part3"
+# 删除工作区的文件（模拟误删）
+rm app.py
+
 EOF
