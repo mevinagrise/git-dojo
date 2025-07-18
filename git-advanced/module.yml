@@ -9,6 +9,10 @@ challenges:
     name: 没有 merge commit 的合并方式
     level: 3
 
+  - id: "cherry-pick"
+    name: 迁移提交记录
+    level: 3
+
   - id: "filter-branch"
     name: 清理敏感文件
     level: 3
