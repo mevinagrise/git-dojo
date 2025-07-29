@@ -1,0 +1,25 @@
+#!/opt/pwn.college/bash
+sudo -u hacker bash -c '
+REPO=/tmp/repo
+mkdir -p "$REPO"
+cd "$REPO"
+git init -q
+git config user.name  "pwnuser"
+git config user.email "pwn@college.edu"
+
+# 1. 初始提交
+echo "print('Hello')" > app.py
+git add app.py
+git commit -q -m "init commit"
+
+# 2. hotfix 分支
+git checkout -b hotfix
+echo "fix applied" > hotfix.txt
+git add hotfix.txt
+git commit -q -m "hotfix base"
+
+# 3. 回到 master 并制造未提交修改
+git checkout master
+echo "print('working on feature')" >> app.py   # 未提交修改
+echo "TODO: complete feature" > notes.txt     # 另一个未跟踪文件
+'
