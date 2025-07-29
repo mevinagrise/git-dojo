@@ -12,3 +12,7 @@ challenges:
   - id: "log"
     name: 筛选提交日志
     level: 3
+
+  - id: "commit-amend"
+    name: 与上一次提交合并
+    level: 3
